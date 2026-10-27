@@ -158,6 +158,12 @@ class GeminiModelClient:
                     raise ModelUnavailable("the Gemini API key was rejected") from exc
                 if exc.code != 429:
                     raise
+                if "per day" in str(exc).lower() or "perday" in str(exc).lower():
+                    # Waiting won't help: the daily free quota resets once a day.
+                    raise ModelUnavailable(
+                        "Gemini's daily free-tier quota is used up for this key; it resets in "
+                        "about a day, or use a key from another Google Cloud project"
+                    ) from exc
                 if attempt == len(delays):
                     raise ModelUnavailable("Gemini free-tier rate limit reached") from exc
             except errors.ServerError as exc:

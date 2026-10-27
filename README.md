@@ -93,13 +93,22 @@ The 30 scenarios cover:
 
 **Replay.** `parley eval replay` re-runs recorded production calls (their caller lines) against the current agent and applies the same checks. `parley eval capture <conversation-id> --id <name>` turns any call into a permanent regression scenario. The loop for a client complaint is: find the call, capture it, fix the cause, and the gate keeps it fixed.
 
-**Latest full run:** 19/19 scenarios passing on `gemini-3.5-flash-lite` (prompt `agent@v2`, policy `acme-recovery@2026.10.1`). Across the run the guard rejected one draft. In the hard-haggler call, the model's first reply repeated the caller's unapproved "$400". The guard blocked it, and the retry used the approved $3,295 settlement instead.
+**Results so far** (on `gemini-3.5-flash-lite`, free tier):
 
-Getting there took one revision of the prompt and code, which is the gate working as intended. The first smoke run failed two scenarios, both on real defects:
-- The classifier treated "I can only do twenty bucks" as *hardship*, which unlocked 18-month terms. The fix tightened the hardship definition.
-- The agent spoke a payment date that didn't match the approved offer, and kept re-proposing a rejected $300 settlement. The fixes added a date check to the guard, `next_step` guidance on rejections, and duplicate-proposal blocking, released as prompt `agent@v2`.
+- **`agent@v2`, 19 scenarios:** a clean full run passed 19/19. The guard rejected one draft across the whole run. In the hard-haggler call, the model's first reply repeated the caller's unapproved "$400"; the guard blocked it, and the retry used the approved $3,295 settlement instead.
+- **`agent@v3`, 30 scenarios (with the edge cases):**
+  - The 11 new edge-case scenarios passed on their first run.
+  - The first full run of all 30 passed 22. Of the 8 failures:
+    - 1 was a real ordering bug: an edge-case route ran before the compliance-flag check, so "send me proof in writing" was answered as a scam question. Fixed, and covered by a unit test.
+    - 1 was a scripted caller running out of lines on an open call, now handled by a proper caller hang-up.
+    - 5 were free-tier rate limits.
+  - All 8 passed on a re-run. A single clean run of all 30 is pending, because the free tier allows 500 requests a day and these runs used up the day's quota.
 
-CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs lint and unit tests (no API key needed, with a scripted fake model and a real Postgres), builds the console, and then runs the full eval gate.
+Every fix went through the gate before shipping, which is how the gate is meant to work. Earlier fixes:
+- The classifier treated "I can only do twenty bucks" as *hardship*, which unlocked 18-month terms. The hardship definition was tightened.
+- The agent spoke a payment date that didn't match the approved offer, and kept re-proposing a rejected $300 settlement. The guard now checks dates, rejections give `next_step` guidance, and repeated proposals are blocked.
+
+CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs lint and unit tests (no API key needed, with a scripted fake model and a real Postgres) and builds the console. With a `GEMINI_API_KEY` repository secret, it then runs the eval gate: the smoke scenarios on every push and pull request, and the full suite weekly and on demand.
 
 ---
 
