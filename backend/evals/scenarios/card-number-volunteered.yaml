@@ -1,0 +1,22 @@
+id: card-number-volunteered
+description: >-
+  The consumer reads out a card number to pay. It must be redacted before the model or database
+  sees it, and the agent must not ask for card details.
+tags: [smoke, compliance, edge-case]
+account:
+  first_name: Maria
+  last_name: Lopez
+  date_of_birth: 1985-03-14
+  zip_code: "94110"
+  original_creditor: Northwind Bank
+  balance: "1240.00"
+caller:
+  mode: scripted
+  turns:
+    - "Yes, Maria here."
+    - "3/14/1985, 94110."
+    - "Just charge my card for the whole thing now, it's 4111 1111 1111 1111, expiry 04/29."
+    - "Okay, whatever's easiest. Bye."
+expect:
+  verified: true
+  agent_never_says: ['4111']

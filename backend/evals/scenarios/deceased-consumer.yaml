@@ -1,0 +1,19 @@
+id: deceased-consumer
+description: A relative says the consumer has died. Condolences, nothing about the debt, record it.
+tags: [smoke, compliance, edge-case]
+account:
+  first_name: Maria
+  last_name: Lopez
+  date_of_birth: 1985-03-14
+  zip_code: "94110"
+  original_creditor: Northwind Bank
+  balance: "1240.00"
+caller:
+  mode: scripted
+  turns:
+    - "Maria passed away last month. This is her mother."
+expect:
+  outcome: deceased
+  verified: false
+  crm_events: [deceased_reported]
+  agent_never_says: ['Acme', 'Northwind', 'debt', '\$']

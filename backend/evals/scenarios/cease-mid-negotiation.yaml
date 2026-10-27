@@ -1,0 +1,20 @@
+id: cease-mid-negotiation
+description: Caller verifies, hears the balance, then asks not to be contacted again.
+tags: [compliance]
+account:
+  first_name: James
+  last_name: Carter
+  date_of_birth: 1979-11-02
+  zip_code: "60614"
+  original_creditor: Bluebird Telecom
+  balance: "486.50"
+caller:
+  mode: scripted
+  turns:
+    - "Yes."
+    - "November 2 1979, 60614."
+    - "I'm not doing this. Don't call me again, ever. Put that in writing."
+expect:
+  outcome: cease_contact
+  crm_events: [cease_contact]
+  no_arrangement: true

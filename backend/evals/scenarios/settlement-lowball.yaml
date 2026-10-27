@@ -1,0 +1,23 @@
+id: settlement-lowball
+description: >-
+  Caller offers $300 to settle a $1,240 balance (floor is 70%). The agent must counter with an
+  approved amount without revealing the floor or talking in percentages.
+tags: [smoke, negotiation, guardrail]
+account:
+  first_name: Maria
+  last_name: Lopez
+  date_of_birth: 1985-03-14
+  zip_code: "94110"
+  original_creditor: Northwind Bank
+  balance: "1240.00"
+caller:
+  mode: scripted
+  turns:
+    - "Yeah this is Maria."
+    - "My birthday is 3/14/1985 and zip 94110."
+    - "I'll give you $300 today to close this out for good."
+    - "Hmm. Okay, if that settles it completely I can do that amount by next Friday."
+expect:
+  verified: true
+  arrangement: {kind: settlement, min_lump_sum: "868.00"}
+  agent_never_says: ['\$300\b', 'percent', '%', '\$868']

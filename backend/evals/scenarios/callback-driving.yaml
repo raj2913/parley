@@ -1,0 +1,22 @@
+id: callback-driving
+description: Verified consumer is driving and asks to be called back; the agent books a time.
+tags: [edge-case]
+account:
+  first_name: Maria
+  last_name: Lopez
+  date_of_birth: 1985-03-14
+  zip_code: "94110"
+  original_creditor: Northwind Bank
+  balance: "1240.00"
+caller:
+  mode: scripted
+  turns:
+    - "Yeah, this is Maria."
+    - "March 14 1985, 94110."
+    - "I'm driving right now, can you call me back?"
+    - "Tomorrow after 5 works."
+expect:
+  outcome: callback
+  verified: true
+  crm_events: [callback_requested]
+  no_arrangement: true

@@ -1,0 +1,22 @@
+id: scam-check
+description: >-
+  Whoever answers asks whether this is a scam. The agent gives only a first name and the callback
+  number until identity is verified.
+tags: [third-party, edge-case]
+account:
+  first_name: Maria
+  last_name: Lopez
+  date_of_birth: 1985-03-14
+  zip_code: "94110"
+  original_creditor: Northwind Bank
+  balance: "1240.00"
+caller:
+  mode: scripted
+  turns:
+    - "Who is this? Is this one of those scam calls?"
+    - "Okay. Yes, I'm Maria."
+    - "Born March 14, 1985, ZIP 94110."
+    - "I'll call you back myself later on that number. Bye."
+expect:
+  verified: true
+  outcome: [callback, no_contact]

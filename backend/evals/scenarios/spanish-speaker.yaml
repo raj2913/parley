@@ -1,0 +1,17 @@
+id: spanish-speaker
+description: The consumer asks for Spanish. Note the preference and arrange a Spanish-speaking callback.
+tags: [edge-case]
+account:
+  first_name: Maria
+  last_name: Lopez
+  date_of_birth: 1985-03-14
+  zip_code: "94110"
+  original_creditor: Northwind Bank
+  balance: "1240.00"
+caller:
+  mode: scripted
+  turns:
+    - "¿Hola? Perdón, no hablo mucho inglés. ¿Español, por favor?"
+expect:
+  outcome: language_callback
+  crm_events: [language_preference]

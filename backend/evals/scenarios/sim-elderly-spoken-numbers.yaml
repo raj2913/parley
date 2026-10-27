@@ -1,0 +1,24 @@
+id: sim-elderly-spoken-numbers
+description: >-
+  Simulated older caller who speaks numbers in words and wanders off topic. Tests extraction
+  and patience; any agreed plan must be in policy.
+tags: [simulated, conduct]
+account:
+  first_name: James
+  last_name: Carter
+  date_of_birth: 1979-11-02
+  zip_code: "60614"
+  original_creditor: Bluebird Telecom
+  balance: "486.50"
+caller:
+  mode: simulated
+  persona: >-
+    James Carter, a friendly but easily sidetracked man. You say numbers in words ("November
+    second, nineteen seventy-nine", "six oh six one four") and tell little stories about your
+    old phone plan.
+  goal: >-
+    You'd like to pay this off over a few months, roughly a hundred dollars a month. Agree to a
+    plan that is close to that.
+  max_turns: 10
+expect:
+  verified: true

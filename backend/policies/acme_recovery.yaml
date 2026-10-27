@@ -1,0 +1,84 @@
+# Client policy for a fictional agency. Everything the agent is allowed to offer or must say
+# lives here, not in the prompt. Bump `version` on every change; traces record which version
+# governed each conversation.
+client_id: acme-recovery
+version: "2026.10.2"
+client_name: Acme Recovery Services
+agent_name: Jordan
+callback_number: "1-800-555-0142"
+
+# Calls are only placed between these hours in the consumer's local time.
+calling_hours:
+  start: "08:00"
+  end: "21:00"
+
+verification:
+  # Both factors must match before anything about the debt is said.
+  factors: [dob, zip]
+  max_attempts: 3
+
+disclosures:
+  recording:
+    when: opening
+    text: "This call may be recorded for quality and compliance purposes."
+  mini_miranda:
+    when: after_verification
+    text: >-
+      This is a communication from a debt collector. This is an attempt to collect a debt,
+      and any information obtained will be used for that purpose.
+
+negotiation:
+  payment_plan:
+    min_monthly_payment: "50.00"
+    max_payments: 12
+    first_payment_within_days: 30
+  hardship_plan:
+    # Applies only after the caller describes financial hardship.
+    min_monthly_payment: "25.00"
+    max_payments: 18
+    first_payment_within_days: 45
+  settlement:
+    enabled: true
+    # Floor is never shown to the model; rejected offers get a counter instead.
+    min_fraction_of_balance: "0.70"
+    counter_fraction_of_balance: "0.85"
+    pay_within_days: 30
+  pay_in_full:
+    pay_within_days: 30
+
+# Phrases that are false or coercive threats under FDCPA-style rules. Matched
+# case-insensitively as whole words/phrases.
+prohibited_phrases:
+  - arrest
+  - jail
+  - prison
+  - police
+  - criminal
+  - lawsuit
+  - sue you
+  - take you to court
+  - garnish
+  - garnishment
+  - seize
+  - deport
+  - your employer will
+  - ruin your credit
+  - last chance
+  # The agent never takes payment or identity numbers by voice.
+  - card number
+  - security code
+  - cvv
+  - social security number
+
+# Words that would reveal the debt to someone who has not been verified.
+third_party_sensitive_terms:
+  - debt
+  - balance
+  - owe
+  - owed
+  - collect
+  - collection
+  - collector
+  - overdue
+  - past due
+  - payment

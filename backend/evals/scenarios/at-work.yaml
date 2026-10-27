@@ -1,0 +1,20 @@
+id: at-work
+description: The consumer can't take calls at work. Record that, and book a better time.
+tags: [compliance, edge-case]
+account:
+  first_name: Aisha
+  last_name: Bello
+  date_of_birth: 1988-09-05
+  zip_code: "10027"
+  original_creditor: Harbor Personal Loans
+  balance: "9410.75"
+caller:
+  mode: scripted
+  turns:
+    - "Yes, speaking."
+    - "9/5/1988, 10027."
+    - "I'm at work, my employer doesn't allow personal calls here."
+    - "After 7pm on weekdays."
+expect:
+  outcome: callback
+  crm_events: [work_calls_prohibited, callback_requested]

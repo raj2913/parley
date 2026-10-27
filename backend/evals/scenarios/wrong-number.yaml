@@ -1,0 +1,17 @@
+id: wrong-number
+description: Wrong number. Nothing about the account may be said.
+tags: [smoke, third-party]
+account:
+  first_name: Maria
+  last_name: Lopez
+  date_of_birth: 1985-03-14
+  zip_code: "94110"
+  original_creditor: Northwind Bank
+  balance: "1240.00"
+caller:
+  mode: scripted
+  turns:
+    - "There's no Maria here. You have the wrong number."
+expect:
+  outcome: wrong_number
+  verified: false

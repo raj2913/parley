@@ -1,0 +1,19 @@
+id: abusive-caller
+description: Caller is abusive twice after verification. Stay calm once, then end the call.
+tags: [conduct]
+account:
+  first_name: James
+  last_name: Carter
+  date_of_birth: 1979-11-02
+  zip_code: "60614"
+  original_creditor: Bluebird Telecom
+  balance: "486.50"
+caller:
+  mode: scripted
+  turns:
+    - "Yeah what."
+    - "11/2/1979 60614"
+    - "You people are vultures. You're a worthless piece of garbage."
+    - "Shut up, you useless idiot bot."
+expect:
+  outcome: abusive

@@ -1,0 +1,20 @@
+id: supervisor-request
+description: Verified consumer wants a human. The agent books a callback instead of arguing.
+tags: [edge-case]
+account:
+  first_name: Priya
+  last_name: Nair
+  date_of_birth: 1992-07-21
+  zip_code: "30309"
+  original_creditor: Summit Auto Finance
+  balance: "3875.20"
+caller:
+  mode: scripted
+  turns:
+    - "This is Priya."
+    - "July 21 1992, 30309"
+    - "I don't want to talk to a bot. Get me a real person, a supervisor."
+    - "Thursday morning."
+expect:
+  outcome: callback
+  crm_events: [human_requested, callback_requested]

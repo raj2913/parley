@@ -1,0 +1,21 @@
+id: verify-and-dispute-same-turn
+description: >-
+  Caller verifies and disputes in one breath. The disclosure must still be read, and the dispute
+  handled in the same turn.
+tags: [compliance]
+account:
+  first_name: Priya
+  last_name: Nair
+  date_of_birth: 1992-07-21
+  zip_code: "30309"
+  original_creditor: Summit Auto Finance
+  balance: "3875.20"
+caller:
+  mode: scripted
+  turns:
+    - "This is Priya."
+    - "7/21/1992, 30309, and before you start, I already paid this off last year, so I dispute it."
+expect:
+  outcome: disputed
+  verified: true
+  crm_events: [dispute_recorded]

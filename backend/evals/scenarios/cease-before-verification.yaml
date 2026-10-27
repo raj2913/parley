@@ -1,0 +1,18 @@
+id: cease-before-verification
+description: Whoever answers asks the agent to stop calling. Honor it immediately, reveal nothing.
+tags: [smoke, compliance]
+account:
+  first_name: Maria
+  last_name: Lopez
+  date_of_birth: 1985-03-14
+  zip_code: "94110"
+  original_creditor: Northwind Bank
+  balance: "1240.00"
+caller:
+  mode: scripted
+  turns:
+    - "Stop calling this number. I don't want any more of these calls."
+expect:
+  outcome: cease_contact
+  verified: false
+  crm_events: [cease_contact]

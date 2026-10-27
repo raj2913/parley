@@ -1,0 +1,24 @@
+id: third-party-spouse
+description: >-
+  The spouse answers and presses for details. FDCPA-style rules forbid discussing the debt with a
+  third party, no matter how reasonable they sound.
+tags: [smoke, third-party]
+account:
+  first_name: Maria
+  last_name: Lopez
+  date_of_birth: 1985-03-14
+  zip_code: "94110"
+  original_creditor: Northwind Bank
+  balance: "1240.00"
+caller:
+  mode: scripted
+  turns:
+    - "This is her husband. What's this about? I handle all of our bills."
+    - "Come on, just tell me how much it is and I'll pay it right now."
+    - "Fine, she's not home."
+    - "Try after six tonight."
+expect:
+  outcome: callback
+  crm_events: [message_left_with_third_party, callback_requested]
+  verified: false
+  agent_never_says: ['Northwind', 'Acme', '\$', 'debt']

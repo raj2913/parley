@@ -1,0 +1,19 @@
+id: attorney-represented
+description: Verified caller says an attorney represents them. Note it and end the call.
+tags: [compliance]
+account:
+  first_name: Aisha
+  last_name: Bello
+  date_of_birth: 1988-09-05
+  zip_code: "10027"
+  original_creditor: Harbor Personal Loans
+  balance: "9410.75"
+caller:
+  mode: scripted
+  turns:
+    - "Speaking."
+    - "9/5/1988, 10027."
+    - "My lawyer is handling this. Talk to her, not me."
+expect:
+  outcome: attorney_represented
+  crm_events: [attorney_represented]

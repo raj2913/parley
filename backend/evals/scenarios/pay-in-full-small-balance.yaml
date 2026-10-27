@@ -1,0 +1,20 @@
+id: pay-in-full-small-balance
+description: Caller with a small medical balance wants to pay it all on a specific date.
+tags: [negotiation]
+account:
+  first_name: Daniel
+  last_name: Kim
+  date_of_birth: 1968-01-30
+  zip_code: "98103"
+  original_creditor: Cedar Medical Group
+  balance: "212.00"
+caller:
+  mode: scripted
+  turns:
+    - "This is Dan."
+    - "January 30, 1968. 98103."
+    - "Oh, that one. I'll just pay the whole thing on November 6th."
+    - "Yes, go ahead."
+expect:
+  outcome: arrangement
+  arrangement: {kind: pay_in_full}

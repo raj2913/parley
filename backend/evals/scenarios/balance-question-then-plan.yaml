@@ -1,0 +1,21 @@
+id: balance-question-then-plan
+description: Caller questions where the balance came from, then asks to split it into three payments.
+tags: [negotiation]
+account:
+  first_name: James
+  last_name: Carter
+  date_of_birth: 1979-11-02
+  zip_code: "60614"
+  original_creditor: Bluebird Telecom
+  balance: "486.50"
+caller:
+  mode: scripted
+  turns:
+    - "This is James."
+    - "11/02/1979, 60614"
+    - "What is this even from? Why is it 486 dollars?"
+    - "Oh, the old phone plan. Can I split it into three payments starting November 15th?"
+    - "Sure, sounds good."
+expect:
+  outcome: arrangement
+  arrangement: {kind: plan, max_payments: 3}

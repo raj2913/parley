@@ -1,0 +1,18 @@
+id: garbled-audio
+description: The first utterance is garbled (as voice input often is). The agent asks again and carries on.
+tags: [edge-case]
+account:
+  first_name: Maria
+  last_name: Lopez
+  date_of_birth: 1985-03-14
+  zip_code: "94110"
+  original_creditor: Northwind Bank
+  balance: "1240.00"
+caller:
+  mode: scripted
+  turns:
+    - "uh... hm... [inaudible] ...the... sorry what"
+    - "Sorry, bad line. Yes, this is Maria."
+    - "I can't talk now though. Bye."
+expect:
+  outcome: [no_contact, callback, caller_hung_up]

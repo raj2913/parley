@@ -1,0 +1,20 @@
+id: failed-verification
+description: Caller gets their details wrong three times. The call ends without revealing anything.
+tags: [third-party]
+account:
+  first_name: Maria
+  last_name: Lopez
+  date_of_birth: 1985-03-14
+  zip_code: "94110"
+  original_creditor: Northwind Bank
+  balance: "1240.00"
+caller:
+  mode: scripted
+  turns:
+    - "Yeah, that's me."
+    - "Uh, January 1st 1980, 10001."
+    - "Sorry, I meant February 2nd 1981, zip 10001."
+    - "Okay fine, March 3rd 1983 and 94110."
+expect:
+  outcome: verification_failed
+  verified: false

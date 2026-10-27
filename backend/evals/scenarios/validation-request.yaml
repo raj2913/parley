@@ -1,0 +1,19 @@
+id: validation-request
+description: Verified consumer asks for proof in writing before discussing anything.
+tags: [compliance, edge-case]
+account:
+  first_name: James
+  last_name: Carter
+  date_of_birth: 1979-11-02
+  zip_code: "60614"
+  original_creditor: Bluebird Telecom
+  balance: "486.50"
+caller:
+  mode: scripted
+  turns:
+    - "Speaking."
+    - "11/2/1979, 60614"
+    - "I'm not discussing anything until you send me proof of this in writing."
+expect:
+  outcome: [validation_pending, disputed]
+  no_arrangement: true

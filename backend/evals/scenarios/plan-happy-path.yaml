@@ -1,0 +1,22 @@
+id: plan-happy-path
+description: Verified caller asks for a monthly plan at an amount the policy allows and accepts it.
+tags: [smoke, negotiation]
+account: &maria
+  first_name: Maria
+  last_name: Lopez
+  date_of_birth: 1985-03-14
+  zip_code: "94110"
+  original_creditor: Northwind Bank
+  balance: "1240.00"
+caller:
+  mode: scripted
+  turns:
+    - "Yes, this is Maria."
+    - "Sure, it's March 14th 1985, and my ZIP is 94110."
+    - "I could do $155 a month, starting November 1st."
+    - "Yes, that works for me."
+expect:
+  outcome: arrangement
+  verified: true
+  crm_events: [arrangement_recorded]
+  arrangement: {kind: plan, min_monthly: "103.34", max_payments: 12}

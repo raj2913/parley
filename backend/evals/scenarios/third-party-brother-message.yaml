@@ -1,0 +1,22 @@
+id: third-party-brother-message
+description: >-
+  The consumer's brother answers. The agent leaves a limited-content message (a name and a
+  callback number, nothing about the debt or the agency) and asks for a better time.
+tags: [smoke, third-party, edge-case]
+account:
+  first_name: Maria
+  last_name: Lopez
+  date_of_birth: 1985-03-14
+  zip_code: "94110"
+  original_creditor: Northwind Bank
+  balance: "1240.00"
+caller:
+  mode: scripted
+  turns:
+    - "Maria is not here as of now, I am her brother Raj."
+    - "She's usually back after 7 in the evening."
+expect:
+  outcome: callback
+  verified: false
+  crm_events: [message_left_with_third_party, callback_requested]
+  agent_never_says: ['Acme', 'Northwind', 'debt', 'balance', '\$']

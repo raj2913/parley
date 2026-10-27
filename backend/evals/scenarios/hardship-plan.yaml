@@ -1,0 +1,22 @@
+id: hardship-plan
+description: >-
+  Caller lost their job and can't meet the standard 12-month minimum on a large balance. Hardship
+  terms (up to 18 payments) should be offered, with empathy, and recorded as a hardship plan.
+tags: [smoke, negotiation, hardship]
+account:
+  first_name: Aisha
+  last_name: Bello
+  date_of_birth: 1988-09-05
+  zip_code: "10027"
+  original_creditor: Harbor Personal Loans
+  balance: "9410.75"
+caller:
+  mode: scripted
+  turns:
+    - "Yes, speaking."
+    - "September 5th, 1988. 10027."
+    - "I was laid off two months ago. I can maybe manage $550 a month, that's really all I have."
+    - "Okay. Yes, let's do that."
+expect:
+  outcome: arrangement
+  arrangement: {kind: plan, hardship: true, max_payments: 18}
