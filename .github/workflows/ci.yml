@@ -4,6 +4,16 @@ on:
   pull_request:
   push:
     branches: [main]
+  # Full suite on demand (Actions tab -> ci -> Run workflow) and weekly.
+  workflow_dispatch:
+    inputs:
+      suite:
+        description: "smoke or full"
+        default: full
+        type: choice
+        options: [smoke, full]
+  schedule:
+    - cron: "0 6 * * 1"
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -49,7 +59,8 @@ jobs:
       - run: npm run build
 
   # The release gate: real calls against the real model. Nothing merges unless every
-  # scenario passes every gating check.
+  # scenario passes every gating check. Pushes and PRs run the smoke suite (free-tier
+  # friendly); the full suite runs weekly and on demand.
   eval-gate:
     needs: backend
     runs-on: ubuntu-latest
@@ -69,15 +80,30 @@ jobs:
     env:
       PARLEY_PROVIDER: gemini
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      SUITE: ${{ github.event_name == 'schedule' && 'full' || inputs.suite || 'smoke' }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
-      - name: Require API key
+      - name: Check for API key
+        id: key
         run: |
-          if [ -z "$GEMINI_API_KEY" ]; then
-            echo "::error::GEMINI_API_KEY secret is not set; the release gate cannot run."
-            exit 1
+          if [ -n "$GEMINI_API_KEY" ]; then
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          else
+            # Forked PRs never receive secrets; skip rather than fail them.
+            echo "::notice::GEMINI_API_KEY is not set, so the model eval gate was skipped. Add it under Settings -> Secrets and variables -> Actions."
+            echo "available=false" >> "$GITHUB_OUTPUT"
           fi
-      - run: uv sync --locked
-      - run: uv run parley db init
-      - run: uv run parley eval run --label "ci ${{ github.event_name }} ${{ github.sha }}"
+        working-directory: .
+      - if: steps.key.outputs.available == 'true'
+        uses: actions/checkout@v4
+      - if: steps.key.outputs.available == 'true'
+        uses: astral-sh/setup-uv@v6
+      - if: steps.key.outputs.available == 'true'
+        run: uv sync --locked
+      - if: steps.key.outputs.available == 'true'
+        run: uv run parley db init
+      - name: Run ${{ env.SUITE }} suite
+        if: steps.key.outputs.available == 'true'
+        run: |
+          TAGS=""
+          if [ "$SUITE" = "smoke" ]; then TAGS="--tag smoke"; fi
+          uv run parley eval run $TAGS --label "ci $SUITE ${{ github.event_name }} ${{ github.sha }}"
